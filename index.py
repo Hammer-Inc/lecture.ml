@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import json
 import csv
 import os, sys
@@ -13,12 +13,12 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def get(request):
+def get():
     return "hello world"
 
 
 @app.route('/post')
-def post(request):
+def post():
     response = "{"
     if request.method != 'POST':
         return
