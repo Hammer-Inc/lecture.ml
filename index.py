@@ -36,7 +36,7 @@ def get():
     # Compile model
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-    model.fit(X, encoded_Y, epochs=200, batch_size=1)
+    model.fit(X, encoded_Y, epochs=100, batch_size=1)
     return "{\nSuccess\n}"
 
 
