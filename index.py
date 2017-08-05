@@ -55,11 +55,13 @@ def post():
 def run_ml_on_json():
     # call microsoft api
     upload_images = request.files
-    auth_header = {"Ocp-Apim-Subscription-Key": "cbbe783880344a45b073fa36b57d5835"}
+    auth_header = {"Ocp-Apim-Subscription-Key": "04d57b905eee48e980fcecd95007e0a7"}
     data_json = ajax.post("https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect", headers=auth_header,
                           files=upload_images)
 
+
     data = json.loads(data_json.text)
+    print(data, file=sys.stderr)
     anger = data["scores"]["anger"]
     contempt = data["scores"]["contempt"]
     disgust = data["scores"]["disgust"]
