@@ -4,6 +4,7 @@ import csv
 import os, sys
 import numpy
 import pandas
+import requests as ajax
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.wrappers.scikit_learn import KerasClassifier
@@ -45,16 +46,18 @@ def post():
     response = "{"
     if request.method != 'POST':
         return
-    uploads = request.files
-    for file in uploads:
-        response += run_ml_on_json(''.join(file.readlines()))
+    response += run_ml_on_json()
     response += "}"
     return response
 
 
-def run_ml_on_json(data_json):
-    data = json.loads(data_json)
+def run_ml_on_json():
+    #call microsoft api
+    upload_images = request.files
+    auth_header = {"Ocp-Apim-Subscription-Key":"cbbe783880344a45b073fa36b57d5835"}
+    data_json = ajax.post("https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect", header=auth_header, files=upload_images)
 
+    data = json.loads(data_json.text)
     anger = data.scores.anger
     contempt = data.scores.contempt
     disgust = data.scores.disgust
