@@ -30,13 +30,13 @@ def post(request):
 
 
 def run_ml_on_json(data_json):
-    data = json.loads(data_json)
-
-    with open("data.csv", "w") as file:
-        csv_file = csv.writer(file)
-        csv_file.writerow(["Emotion", "Score", "classification"])
-        for item in data:
-            csv_file.writerow(["Anger", item['scores']["anger"], item['classification']])
+    # data = json.loads(data_json)
+    #
+    # with open("data.csv", "w") as file:
+    #     csv_file = csv.writer(file)
+    #     csv_file.writerow(["Emotion", "Score", "classification"])
+    #     for item in data:
+    #         csv_file.writerow(["Anger", item['scores']["anger"], item['classification']])
 
     # load dataset
     dataframe = pandas.read_csv("file.csv", header=None)
