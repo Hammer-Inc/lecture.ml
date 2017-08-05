@@ -1,3 +1,4 @@
+from __future__ import print_function
 from flask import Flask, request
 import json
 import csv
@@ -56,6 +57,8 @@ def run_ml_on_json():
     upload_images = request.files
     auth_header = {"Ocp-Apim-Subscription-Key":"cbbe783880344a45b073fa36b57d5835"}
     data_json = ajax.post("https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect", header=auth_header, files=upload_images)
+
+    print(data_json, file=sys.stderr)
 
     data = json.loads(data_json.text)
     anger = data.scores.anger
