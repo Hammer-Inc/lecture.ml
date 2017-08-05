@@ -59,17 +59,15 @@ def run_ml_on_json():
     data_json = ajax.post("https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect", headers=auth_header,
                           files=upload_images)
 
-    print(data_json, file=sys.stderr)
-
     data = json.loads(data_json.text)
-    anger = data.scores.anger
-    contempt = data.scores.contempt
-    disgust = data.scores.disgust
-    fear = data.scores.fear
-    happiness = data.scores.happiness
-    neutral = data.scores.neutral
-    sadness = data.scores.sadness
-    surprise = data.scores.surprise
+    anger = data["scores"]["anger"]
+    contempt = data["scores"]["contempt"]
+    disgust = data["scores"]["disgust"]
+    fear = data["scores"]["fear"]
+    happiness = data["scores"]["happiness"]
+    neutral = data["scores"]["neutral"]
+    sadness = data["scores"]["sadness"]
+    surprise = data["scores"]["surprise"]
 
     return json.dumps(
         model.predict(numpy.array([[anger, contempt, disgust, fear, happiness, neutral, sadness, surprise]])))
