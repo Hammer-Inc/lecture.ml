@@ -54,24 +54,25 @@ def post():
 
 def run_ml_on_json():
     # call microsoft api
-    upload_images = request.files
-    print(request.files, file=sys.stderr)
-    auth_header = {"Ocp-Apim-Subscription-Key": "04d57b905eee48e980fcecd95007e0a7", "content-type": "application/octet-stream"}
+    upload_images = request.files[""].read()
+
+    print(request.files[""], file=sys.stderr)
+    auth_header = {"Ocp-Apim-Subscription-Key": "04d57b905eee48e980fcecd95007e0a7",
+                   "content-type": "application/octet-stream"}
 
     data_json = ajax.post("https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect", headers=auth_header,
-                          files=upload_images)
+                          data=upload_images)
 
-
-    data = json.loads(data_json.text)
-    print(data, file=sys.stderr)
-    anger = data["scores"]["anger"]
-    contempt = data["scores"]["contempt"]
-    disgust = data["scores"]["disgust"]
-    fear = data["scores"]["fear"]
-    happiness = data["scores"]["happiness"]
-    neutral = data["scores"]["neutral"]
-    sadness = data["scores"]["sadness"]
-    surprise = data["scores"]["surprise"]
+    data_emotion = json.loads(data_json.text)
+    print(data_emotion, file=sys.stderr)
+    anger = data_emotion["scores"]["anger"]
+    contempt = data_emotion["scores"]["contempt"]
+    disgust = data_emotion["scores"]["disgust"]
+    fear = data_emotion["scores"]["fear"]
+    happiness = data_emotion["scores"]["happiness"]
+    neutral = data_emotion["scores"]["neutral"]
+    sadness = data_emotion["scores"]["sadness"]
+    surprise = data_emotion["scores"]["surprise"]
 
     return json.dumps(
         model.predict(numpy.array([[anger, contempt, disgust, fear, happiness, neutral, sadness, surprise]])))
