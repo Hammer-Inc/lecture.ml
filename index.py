@@ -56,7 +56,7 @@ def run_ml_on_json():
     # call microsoft api
     upload_images = request.files
     auth_header = {"Ocp-Apim-Subscription-Key": "cbbe783880344a45b073fa36b57d5835"}
-    data_json = ajax.post("https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect", header=auth_header,
+    data_json = ajax.post("https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect", headers=auth_header,
                           files=upload_images)
 
     print(data_json, file=sys.stderr)
