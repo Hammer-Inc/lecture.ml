@@ -53,14 +53,14 @@ def post():
 def run_ml_on_json(data):
     # call microsoft api
 
-    anger = data["scores"]["contempt"]
-    contempt = data["scores"]["contempt"]
-    disgust = data["scores"]["disgust"]
-    fear = data["scores"]["fear"]
-    happiness = data["scores"]["happiness"]
-    neutral = data["scores"]["neutral"]
-    sadness = data["scores"]["sadness"]
-    surprise = data["scores"]["surprise"]
+    anger = data["faceAttributes"]["emotion"]["contempt"]
+    contempt = data["faceAttributes"]["emotion"]["contempt"]
+    disgust = data["faceAttributes"]["emotion"]["disgust"]
+    fear = data["faceAttributes"]["emotion"]["fear"]
+    happiness = data["faceAttributes"]["emotion"]["happiness"]
+    neutral = data["faceAttributes"]["emotion"]["neutral"]
+    sadness = data["faceAttributes"]["emotion"]["sadness"]
+    surprise = data["faceAttributes"]["emotion"]["surprise"]
 
     confidence = model.predict(numpy.array([[anger, contempt, disgust, fear, happiness, neutral, sadness, surprise]]))
 
