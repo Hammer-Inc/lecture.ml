@@ -53,6 +53,7 @@ def post():
 def run_ml_on_json(data):
     # call microsoft api
 
+    anger = data["scores"]["contempt"]
     contempt = data["scores"]["contempt"]
     disgust = data["scores"]["disgust"]
     fear = data["scores"]["fear"]
