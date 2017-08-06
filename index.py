@@ -45,25 +45,13 @@ def get():
 @app.route('/post', methods=["POST"])
 def post():
     response = "{"
-    if request.method != 'POST':
-        return
-    response += run_ml_on_json()
+    response += run_ml_on_json(request.get_json())
     response += "}"
     return response
 
 
-def run_ml_on_json():
+def run_ml_on_json(data):
     # call microsoft api
-    upload_images = request.files
-    print(request.files, file=sys.stderr)
-    auth_header = {"Ocp-Apim-Subscription-Key": "04d57b905eee48e980fcecd95007e0a7", "content-type": "application/octet-stream"}
-
-    data_json = ajax.post("https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect", headers=auth_header,
-                          files=upload_images)
-
-
-    data = json.loads(data_json.text)
-    print(data, file=sys.stderr)
     anger = data["scores"]["anger"]
     contempt = data["scores"]["contempt"]
     disgust = data["scores"]["disgust"]
@@ -72,6 +60,7 @@ def run_ml_on_json():
     neutral = data["scores"]["neutral"]
     sadness = data["scores"]["sadness"]
     surprise = data["scores"]["surprise"]
+
 
     return json.dumps(
         model.predict(numpy.array([[anger, contempt, disgust, fear, happiness, neutral, sadness, surprise]])))
