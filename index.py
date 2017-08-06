@@ -53,17 +53,30 @@ def post():
 def run_ml_on_json(data):
     # call microsoft api
 
-    tmp = json.loads(data)
+    array = []
 
-    anger = tmp["faceAttributes"]["emotion"]["anger"]
-    contempt = tmp["faceAttributes"]["emotion"]["contempt"]
-    disgust = tmp["faceAttributes"]["emotion"]["disgust"]
-    fear = tmp["faceAttributes"]["emotion"]["fear"]
-    happiness = tmp["faceAttributes"]["emotion"]["happiness"]
-    neutral = tmp["faceAttributes"]["emotion"]["neutral"]
-    sadness = tmp["faceAttributes"]["emotion"]["sadness"]
-    surprise = tmp["faceAttributes"]["emotion"]["surprise"]
+    for x in range(0, len(data) - 1):
+        tmp = json.load(data[x])
+        array.append(tmp)
 
-    confidence = model.predict(numpy.array([[anger, contempt, disgust, fear, happiness, neutral, sadness, surprise]]))
+    arrayEmotion = []
 
-    return confidence
+    for z in array:
+        arrayemotion.append([z])
+        arrayEmotion[z].append(x["faceAttributes"]["emotion"]["anger"])
+        arrayEmotion[z].append(x["faceAttributes"]["emotion"]["contempt"])
+        arrayEmotion[z].append(x["faceAttributes"]["emotion"]["disgust"])
+        arrayEmotion[z].append(x["faceAttributes"]["emotion"]["fear"])
+        arrayEmotion[z].append(x["faceAttributes"]["emotion"]["happiness"])
+        arrayEmotion[z].append(x["faceAttributes"]["emotion"]["neutral"])
+        arrayEmotion[z].append(x["faceAttributes"]["emotion"]["sadness"])
+        arrayEmotion[z].append(x["faceAttributes"]["emotion"]["surprise"])
+
+    confArray = []
+
+    for y in range(0, 7):
+        confidence = model.predict(
+            numpy.array([[arrayEmotion[y][0], arrayEmotion[y][1], arrayEmotion[y][2], arrayEmotion[y][3], arrayEmotion[y][4], arrayEmotion[y][5], arrayEmotion[y][6], arrayEmotion[y][7]]]))
+        confArray.append(confidence)
+
+    return confArray
