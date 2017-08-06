@@ -45,14 +45,14 @@ def get():
 @app.route('/post', methods=["POST"])
 def post():
     response = "{"
-    response += run_ml_on_json(request.get_json())
+    response += run_ml_on_json(request.json)
     response += "}"
     return response
 
 
 def run_ml_on_json(data):
     # call microsoft api
-    anger = data["scores"]["anger"]
+
     contempt = data["scores"]["contempt"]
     disgust = data["scores"]["disgust"]
     fear = data["scores"]["fear"]
@@ -61,6 +61,6 @@ def run_ml_on_json(data):
     sadness = data["scores"]["sadness"]
     surprise = data["scores"]["surprise"]
 
+    confidence = model.predict(numpy.array([[anger, contempt, disgust, fear, happiness, neutral, sadness, surprise]]))
 
-    return json.dumps(
-        model.predict(numpy.array([[anger, contempt, disgust, fear, happiness, neutral, sadness, surprise]])))
+    return confidence
